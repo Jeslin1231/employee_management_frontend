@@ -29,7 +29,7 @@ const NotFound: React.FC = () => {
 
         <div className="text-center text-gray-800">{message}</div>
         <div className="text-center">
-          <Button variant="outline" onClick={goBackHandler}>
+          <Button variant="default" size="lg" onClick={goBackHandler}>
             Home
           </Button>
         </div>
