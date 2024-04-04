@@ -48,7 +48,7 @@ const ProfilesHr = () => {
           Employee Profiles for HR to Review
         </h1>
       </div>
-      <div className="w-4/5 flex flex-col m-auto bg-white rounded-lg mb-20">
+      <div className="w-4/5 flex flex-col bg-white rounded-lg mx-auto mb-20">
         <DataTable columns={columns} data={data} filterValue="fullName" />
       </div>
     </div>
