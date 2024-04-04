@@ -24,7 +24,7 @@ const Navigation = () => {
 
   const [Identity, setIdentity] = React.useState('E');
 
-  const pages_HR = [
+  const pagesHR = [
     {
       description: <Link to="/profiles_hr">Employee Profiiles</Link>,
     },
@@ -36,7 +36,7 @@ const Navigation = () => {
     },
   ];
 
-  const pages_E = [
+  const pagesEmployee = [
     {
       description: <Link to="/onboarding">Onboarding</Link>,
     },
@@ -48,7 +48,7 @@ const Navigation = () => {
     },
   ];
 
-  const pages = Identity === 'HR' ? pages_HR : pages_E;
+  const pages = Identity === 'HR' ? pagesHR : pagesEmployee;
 
   const handleLogout = () => {
     // dispatch(logout()); // dispatch logout action
