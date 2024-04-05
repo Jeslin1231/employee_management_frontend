@@ -8,7 +8,12 @@ import {
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
 import { Link, useNavigate } from 'react-router-dom';
-import Tooltip from '@/components/Tooltip';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -47,8 +52,8 @@ const Navigation = () => {
   };
 
   return (
-    <div className="flex bg-[#6A7AAE] py-4 justify-around items-center">
-      <div className="font-bold md:text-3xl text-xl ">Company A</div>
+    <div className="sticky top-0 flex backdrop-filter backdrop-blur-md bg-opacity-30 bg-slate-200 py-4 justify-around items-center z-[100]">
+      <div className="font-bold text-3xl ">Company A</div>
 
       <NavigationMenu>
         <NavigationMenuList>
@@ -70,12 +75,19 @@ const Navigation = () => {
         </NavigationMenuList>
       </NavigationMenu>
 
-      <div
-        className="text-white hover:text-black md:text-base text-sm"
-        onClick={handleLogout}
-      >
-        <Tooltip main="Log Out" hover="Click to Log Out" />
-      </div>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger
+            className="text-gray-500 hover:text-black"
+            onClick={handleLogout}
+          >
+            Log Out
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Click to Log Out</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 };
