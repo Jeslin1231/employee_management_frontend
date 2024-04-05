@@ -59,6 +59,19 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center py-4 justify-center">
         <div className="mr-4 text-gray-400">Search Employee Name: </div>
+        {/* <Input
+          placeholder="🔍Filter names..."
+          value={
+            (table.getColumn(`${filterValue}`)?.getFilterValue() as string) ??
+            ''
+          }
+          onChange={event =>
+            table
+              .getColumn(`${filterValue}`)
+              ?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        /> */}
         <Input
           placeholder="🔍Filter names..."
           value={
