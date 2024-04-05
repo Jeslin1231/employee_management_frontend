@@ -3,26 +3,17 @@ import React from 'react';
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
-  navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import Tooltip from '@/components/Tooltip';
 
 const Navigation = () => {
   const navigate = useNavigate();
 
-  const [Identity, setIdentity] = React.useState('E');
+  const [Identity, setIdentity] = React.useState('HR');
 
   const pagesHR = [
     {
@@ -57,7 +48,7 @@ const Navigation = () => {
 
   return (
     <div className="flex bg-[#6A7AAE] py-4 justify-around items-center">
-      <div className="font-bold text-3xl ">Company A</div>
+      <div className="font-bold md:text-3xl text-xl ">Company A</div>
 
       <NavigationMenu>
         <NavigationMenuList>
@@ -79,19 +70,12 @@ const Navigation = () => {
         </NavigationMenuList>
       </NavigationMenu>
 
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger
-            className="text-white hover:text-black"
-            onClick={handleLogout}
-          >
-            Log Out
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Click to Log Out</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <div
+        className="text-white hover:text-black md:text-base text-sm"
+        onClick={handleLogout}
+      >
+        <Tooltip main="Log Out" hover="Click to Log Out" />
+      </div>
     </div>
   );
 };
