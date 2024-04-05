@@ -8,12 +8,6 @@ import {
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
 import { Link, useNavigate } from 'react-router-dom';
-// import {
-//   Tooltip,
-//   TooltipContent,
-//   TooltipProvider,
-//   TooltipTrigger,
-// } from '@/components/ui/tooltip';
 import Tooltip from '@/components/Tooltip';
 
 const Navigation = () => {
@@ -75,20 +69,6 @@ const Navigation = () => {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-
-      {/* <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger
-            className="text-gray-500 hover:text-black"
-            onClick={handleLogout}
-          >
-            Log Out
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Click to Log Out</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider> */}
 
       <div className="text-gray-500 hover:text-black" onClick={handleLogout}>
         <Tooltip main="Log Out" hover="Click to Log Out" />

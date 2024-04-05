@@ -6,12 +6,10 @@ import InProgressVisa from './inProgressVisa';
 const VisaHr = () => {
   return (
     <div className="flex flex-col flex-grow bg-slate-200">
-      <div className="w-full">
-        <h1 className="text-2xl text-left m-5">
-          Employee Profiles for HR to Review
-        </h1>
-      </div>
       <div className="w-4/5 min-h-[600px] p-2 flex flex-col bg-white rounded-lg mx-auto mb-20">
+        <header className="text-2xl text-left m-5">
+          Employee Profiles for HR to Review
+        </header>
         <Tabs defaultValue="progress" className="w-[400px]">
           <TabsList>
             <TabsTrigger value="progress">In Progress Visa </TabsTrigger>
