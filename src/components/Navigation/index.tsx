@@ -3,26 +3,17 @@ import React from 'react';
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
-  navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import Tooltip from '@/components/Tooltip';
 
 const Navigation = () => {
   const navigate = useNavigate();
 
-  const [Identity, setIdentity] = React.useState('E');
+  const [Identity, setIdentity] = React.useState('HR');
 
   const pagesHR = [
     {
@@ -79,19 +70,9 @@ const Navigation = () => {
         </NavigationMenuList>
       </NavigationMenu>
 
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger
-            className="text-gray-500 hover:text-black"
-            onClick={handleLogout}
-          >
-            Log Out
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Click to Log Out</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <div className="text-gray-500 hover:text-black" onClick={handleLogout}>
+        <Tooltip main="Log Out" hover="Click to Log Out" />
+      </div>
     </div>
   );
 };

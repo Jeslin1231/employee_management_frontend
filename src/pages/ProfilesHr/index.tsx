@@ -42,9 +42,7 @@ const ProfilesHr = () => {
 
   return (
     <div className="flex flex-col flex-grow bg-slate-200">
-      {/* <div className='flex w-full'> */}
-
-      <div className="w-4/5 flex flex-col m-auto bg-white rounded-lg mb-20">
+      <div className="w-4/5 flex flex-col mx-auto bg-white rounded-lg mb-20">
         <header className="text-2xl text-left m-5">
           Employee Profiles for HR to Review
         </header>
@@ -52,7 +50,6 @@ const ProfilesHr = () => {
         <DataTable columns={columns} data={data} filterValue="fullName" />
       </div>
     </div>
-    // </div>
   );
 };
 
