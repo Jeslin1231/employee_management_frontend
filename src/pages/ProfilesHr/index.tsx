@@ -1,5 +1,5 @@
 import { Profile, columns } from './structure';
-import { DataTable } from '@/components/Table';
+import { DataTable } from '@/pages/ProfilesHr/Table';
 import { sampleData } from './sampleData';
 import { useMemo } from 'react';
 import { Separator } from '@/components/ui/separator';
@@ -43,7 +43,7 @@ const ProfilesHr = () => {
   return (
     <div className="flex flex-col flex-grow bg-slate-200">
       <div className="w-4/5 flex flex-col mx-auto bg-white rounded-lg mb-20">
-        <header className="text-2xl text-left m-5">
+        <header className="text-3xl font-semibold text-left m-5 mx-28">
           Employee Profiles for HR to Review
         </header>
         <Separator />
