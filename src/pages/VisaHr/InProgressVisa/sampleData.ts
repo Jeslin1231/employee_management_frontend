@@ -1,3 +1,25 @@
+// const handleNextStep = (visa) => {
+//   if (["Unsubmitted", "Rejected"].includes(visa.opt_receipt)) {
+//     return "Submit OPT receipt";
+//   } else if (visa.opt_receipt === "Pending") {
+//     return "OPT Receipt: wait for HR approval";
+//   } else if (["Unsubmitted", "Rejected"].includes(visa.opt_ead)) {
+//     return "Submit OPT EAD";
+//   } else if (visa.opt_ead === "Pending") {
+//     return "OPT EAD: wait for HR approval";
+//   } else if (["Unsubmitted", "Rejected"].includes(visa.i983)) {
+//     return "Submit I-983";
+//   } else if (visa.i983 === "Pending") {
+//     return "I-983: wait for HR approval";
+//   } else if (["Unsubmitted", "Rejected"].includes(visa.i20)) {
+//     return "Submit I-20";
+//   } else if (visa.i20 === "Pending") {
+//     return "I-20: wait for HR approval";
+//   } else {
+//     return "All documents have been approved";
+//   }
+// };
+
 type employee = {
   id: string;
   fullName: string;
@@ -21,7 +43,7 @@ export const sampleData: employee[] = [
       endDate: '2024-01-01',
       remainingDays: 100,
     },
-    nextStep: 'Renew H1-B',
+    nextStep: 'Submit OPT receipt',
     // action: 'Renew H1-B'
   },
   {
@@ -33,7 +55,7 @@ export const sampleData: employee[] = [
       endDate: '2024-01-01',
       remainingDays: 100,
     },
-    nextStep: 'Renew L2',
+    nextStep: 'OPT Receipt: wait for HR approval',
     // action: 'Renew L2'
   },
   {
@@ -45,7 +67,7 @@ export const sampleData: employee[] = [
       endDate: '2024-01-01',
       remainingDays: 100,
     },
-    nextStep: 'Renew H1-B',
+    nextStep: 'Submit OPT EAD',
     // action: 'Renew H1-B'
   },
   {
@@ -57,7 +79,7 @@ export const sampleData: employee[] = [
       endDate: '2024-01-01',
       remainingDays: 100,
     },
-    nextStep: 'Renew H4',
+    nextStep: 'OPT EAD: wait for HR approval',
     // action: 'Renew H4'
   },
   {
@@ -69,7 +91,7 @@ export const sampleData: employee[] = [
       endDate: '2024-01-01',
       remainingDays: 100,
     },
-    nextStep: 'Renew F1-OPT',
+    nextStep: 'Submit I-983',
     // action: 'Renew F1-OPT'
   },
   {
@@ -81,7 +103,7 @@ export const sampleData: employee[] = [
       endDate: '2024-01-01',
       remainingDays: 100,
     },
-    nextStep: 'Renew F1-CPT',
+    nextStep: 'I-983: wait for HR approval',
     // action: 'Renew F1-CPT'
   },
   {
@@ -93,7 +115,7 @@ export const sampleData: employee[] = [
       endDate: '2024-01-01',
       remainingDays: 100,
     },
-    nextStep: 'Renew H1-B',
+    nextStep: 'Submit I-20',
     // action: 'Renew H1-B'
   },
   {
@@ -105,7 +127,7 @@ export const sampleData: employee[] = [
       endDate: '2024-01-01',
       remainingDays: 100,
     },
-    nextStep: 'Renew L2',
+    nextStep: 'I-20: wait for HR approval',
     // action: 'Renew L2'
   },
   {
@@ -117,7 +139,7 @@ export const sampleData: employee[] = [
       endDate: '2024-01-01',
       remainingDays: 100,
     },
-    nextStep: 'Renew H1-B',
+    nextStep: 'Submit Onboarding Application',
     // action: 'Renew H1-B'
   },
   {
