@@ -22,9 +22,7 @@ import { handleApolloError } from '@/utils/error';
 import { Loader2 } from 'lucide-react';
 
 const Onboarding: react.FC = () => {
-  // const token = useAppSelector(selectToken);
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MTczYTUzZWQ1ODY2NmQ4NWMzNWZiNSIsImlhdCI6MTcxMjc5ODQ5MiwiZXhwIjoxNzEzNjYyNDkyfQ.wIkbcRMSveWPI2ksNmMwjum_cLPfoxviU939yH-aPUE';
+  const token = useAppSelector(selectToken);
   const onboardingStatus = useAppSelector(selectOnboardingStatus);
 
   const { values, handleChange, setFieldValue, touched, errors, handleSubmit } =
