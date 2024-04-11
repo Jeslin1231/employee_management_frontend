@@ -1,16 +1,17 @@
 import { Button } from '@/components/ui/button';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '@/app/hooks';
+import { selectRole } from '@/features/auth/AuthSlice';
 
 const NotFound: React.FC = () => {
-  const [identity, setIdentity] = React.useState<string>('HR');
+  const identity = useAppSelector(selectRole);
 
   const navigate = useNavigate();
 
   console.log(navigate);
 
   const goBackHandler = () => {
-    if (identity === 'HR') {
+    if (identity === 'hr') {
       navigate('/profiles_hr');
     } else {
       navigate('/onboarding');

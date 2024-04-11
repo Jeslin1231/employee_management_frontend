@@ -15,6 +15,7 @@ import ProfilesHr from './pages/ProfilesHr';
 import Visa from './pages/Visa';
 import VisaHr from './pages/VisaHr';
 import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedHRRoute from './components/ProtectedRoute/hrRoute';
 
 const Layout = () => {
   return (
@@ -48,9 +49,21 @@ const App: React.FC = () => {
             <Route path="/visa" element={<Visa />} />
 
             {/* HR Pages */}
-            <Route path="/visa_hr" element={<VisaHr />} />
-            <Route path="/hiring_hr" element={<HiringHr />} />
-            <Route path="/profiles_hr" element={<ProfilesHr />} />
+            <Route
+              path="/visa_hr"
+              element={<ProtectedHRRoute element={<VisaHr />} />}
+              //  element={<VisaHr />}
+            />
+            <Route
+              path="/hiring_hr"
+              element={<ProtectedHRRoute element={<HiringHr />} />}
+              // element={<HiringHr />}
+            />
+            <Route
+              path="/profiles_hr"
+              element={<ProtectedHRRoute element={<ProfilesHr />} />}
+              // element={<ProfilesHr />}
+            />
           </Route>
 
           {/* Error Page */}

@@ -9,14 +9,14 @@ import {
 } from '@/components/ui/navigation-menu';
 import { Link, useNavigate } from 'react-router-dom';
 import Tooltip from '@/components/Tooltip';
-import { useAppDispatch } from '@/app/hooks';
-import { logout } from '@/features/auth/AuthSlice';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { logout, selectRole } from '@/features/auth/AuthSlice';
 
 const Navigation = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const Identity = useAppSelector(selectRole);
 
-  const [Identity, setIdentity] = React.useState('HR');
+  const navigate = useNavigate();
 
   const pagesHR = [
     {
@@ -42,7 +42,7 @@ const Navigation = () => {
     },
   ];
 
-  const pages = Identity === 'HR' ? pagesHR : pagesEmployee;
+  const pages = Identity === 'hr' ? pagesHR : pagesEmployee;
 
   const handleLogout = () => {
     dispatch(logout());
