@@ -1,31 +1,58 @@
-import { Profile, columns } from './structure';
+import type { Profile } from './structure';
+import { columns } from './structure';
 import { DataTable } from '@/pages/ProfilesHr/Table';
-import { sampleData } from './sampleData';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Separator } from '@/components/ui/separator';
+import { useLazyQuery, gql } from '@apollo/client';
+import { ToastAction } from '@/components/ui/toast';
+import { handleApolloError } from '@/utils/error';
+import { useAppSelector } from '@/app/hooks';
+import { selectToken } from '@/features/auth/AuthSlice';
+import { useState } from 'react';
 
-// async function getData(): Promise<Profile[]> {
-//   // Fetch data from your API here.x
-//   return [
-//     {
-//       id: "728ed52f",
-//       amount: 100,
-//       status: "pending",
-//       email: "m@example.com",
-//     },
-//     // ...
-//   ]
-// }
+const GET_PROFILES = gql`
+  query GetAllEmployeesProfiles {
+    getAllEmployeesProfiles {
+      user
+      firstName
+      lastName
+      middleName
+      visaType
+      ssn
+      workPhone
+      cellPhone
+      email
+    }
+  }
+`;
 
 const ProfilesHr = () => {
-  sampleData.sort((a, b) => {
-    const lastNameA = a.fullName.split(' ').pop()?.toLowerCase() || ''; // Extract last name from fullName and convert to lowercase
-    const lastNameB = b.fullName.split(' ').pop()?.toLowerCase() || ''; // Extract last name from fullName and convert to lowercase
-
-    return lastNameA.localeCompare(lastNameB); // Compare last names
+  const token = useAppSelector(selectToken);
+  const [getProfiles] = useLazyQuery(GET_PROFILES, {
+    onError: handleApolloError(
+      <ToastAction altText="Try Again" onClick={() => window.location.reload()}>
+        Error fetching employee profiles. Try again.
+      </ToastAction>,
+    ),
   });
 
-  const data = sampleData;
+  const [data, setData] = useState<Profile[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (token) {
+        const { data } = await getProfiles({ variables: { token } });
+
+        const sortedData = [...data.getAllEmployeesProfiles].sort(
+          (a: Profile, b: Profile) => {
+            return a.lastName.localeCompare(b.lastName);
+          },
+        );
+
+        setData(sortedData);
+      }
+    };
+    fetchData();
+  }, [token, getProfiles]);
 
   const loading = useMemo(
     () => (data.length === 0 ? 'pending' : 'done'),
@@ -47,7 +74,9 @@ const ProfilesHr = () => {
           Employee Profiles for HR to Review
         </header>
         <Separator />
-        <DataTable columns={columns} data={data} filterValue="fullName" />
+        <div className="px-20">
+          <DataTable columns={columns} data={data} filterValue="fullName" />
+        </div>
       </div>
     </div>
   );
