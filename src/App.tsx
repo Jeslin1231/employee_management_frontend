@@ -16,6 +16,7 @@ import Visa from './pages/Visa';
 import VisaHr from './pages/VisaHr';
 import ProtectedRoute from './components/ProtectedRoute';
 import ProtectedHRRoute from './components/ProtectedRoute/hrRoute';
+import ErrorBoundary from './components/ErrorBoundary/errorBoundary';
 
 const Layout = () => {
   return (
@@ -30,46 +31,48 @@ const App: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen min-w-full bg-slate-200">
       <Router>
-        <Routes>
-          {/* <Route path="/" element={<Outlet />} /> */}
-          {/* login page if not login, other pages will be inacccessible*/}
+        <ErrorBoundary>
+          <Routes>
+            {/* <Route path="/" element={<Outlet />} /> */}
+            {/* login page if not login, other pages will be inacccessible*/}
 
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
 
-          <Route path="/register/:token" element={<Registration />} />
-          {/* employees pages */}
-          <Route element={<Layout />}>
-            <Route
-              path="/onboarding"
-              // element={<ProtectedRoute element={<Onboarding />} />}
-              element={<Onboarding />}
-            />
-            <Route path="/personal_info" element={<PersonalInfo />} />
-            <Route path="/visa" element={<Visa />} />
+            <Route path="/register/:token" element={<Registration />} />
+            {/* employees pages */}
+            <Route element={<Layout />}>
+              <Route
+                path="/onboarding"
+                // element={<ProtectedRoute element={<Onboarding />} />}
+                element={<Onboarding />}
+              />
+              <Route path="/personal_info" element={<PersonalInfo />} />
+              <Route path="/visa" element={<Visa />} />
 
-            {/* HR Pages */}
-            <Route
-              path="/visa_hr"
-              element={<ProtectedHRRoute element={<VisaHr />} />}
-              //  element={<VisaHr />}
-            />
-            <Route
-              path="/hiring_hr"
-              element={<ProtectedHRRoute element={<HiringHr />} />}
-              // element={<HiringHr />}
-            />
-            <Route
-              path="/profiles_hr"
-              element={<ProtectedHRRoute element={<ProfilesHr />} />}
-              // element={<ProfilesHr />}
-            />
-          </Route>
+              {/* HR Pages */}
+              <Route
+                path="/visa_hr"
+                element={<ProtectedHRRoute element={<VisaHr />} />}
+                //  element={<VisaHr />}
+              />
+              <Route
+                path="/hiring_hr"
+                element={<ProtectedHRRoute element={<HiringHr />} />}
+                // element={<HiringHr />}
+              />
+              <Route
+                path="/profiles_hr"
+                element={<ProtectedHRRoute element={<ProfilesHr />} />}
+                // element={<ProfilesHr />}
+              />
+            </Route>
 
-          {/* Error Page */}
-          <Route path="*" element={<NotFound />} />
-          {/* different type of error need to add later */}
-        </Routes>
+            {/* Error Page */}
+            <Route path="*" element={<NotFound />} />
+            {/* different type of error need to add later */}
+          </Routes>
+        </ErrorBoundary>
       </Router>
     </div>
   );
