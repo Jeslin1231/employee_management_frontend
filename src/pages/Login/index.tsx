@@ -77,7 +77,7 @@ const Login = () => {
 
   return (
     <div className="flex flex-grow">
-      <div className="w-2/5 flex flex-col m-auto">
+      <div className="w-11/12 md:w-2/5 flex flex-col m-auto">
         <Form
           title="Login"
           buttonText="Login"
@@ -106,14 +106,14 @@ const Login = () => {
           ]}
           onSubmit={formik.handleSubmit}
         />
-        <div className="mt-2 flex justify-between">
+        <div className="mt-2 flex flex-col md:flex-row justify-between">
           <p>
-            Don't have an account?{' '}
+            Don't have an account?
             <a className="text-blue-600 underline" href="/register">
               Register here
             </a>
           </p>
-          <a className="text-blue-600 underline" href="/">
+          <a className="mt-1 md:m-0 text-blue-600 underline" href="/">
             Forgot Password?
           </a>
         </div>

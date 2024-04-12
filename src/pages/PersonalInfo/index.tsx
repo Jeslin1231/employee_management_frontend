@@ -42,12 +42,12 @@ const PersonalInfo = () => {
 
   return (
     <div className="flex flex-grow">
-      <div className="flex flex-col w-4/5 mx-auto bg-white rounded-lg mb-2">
-        <header className="text-3xl font-semibold mt-16 mb-5 mx-28">
+      <div className="flex flex-col w-full md:w-4/5 mx-auto bg-white rounded-lg mb-2">
+        <header className="text-xl md:text-3xl font-semibold mt-16 mb-5 mx-14 md:mx-28">
           Profile
         </header>
         <Separator className="my-5 w-4/5 self-center" />
-        <div className="flex flex-col mt-3 mb-16 mx-44">
+        <div className="flex flex-col mt-3 mb-16 mx-20 md:mx-44">
           <NameSection
             initialValues={{
               avatar:
@@ -122,16 +122,16 @@ const PersonalInfo = () => {
           {data.employee.documents.length > 0 && (
             <>
               <Separator className="my-2 self-center" />
-              <header className="text-2xl font-semibold my-5">
+              <header className="text-lg md:text-2xl font-semibold my-5">
                 Upload Documents
               </header>
               <ul className="flex flex-col w-full">
                 {data.employee.documents.map((document: any, index: number) => (
                   <li
                     key={index}
-                    className="flex my-2 justify-between items-center"
+                    className="flex flex-col md:flex-row my-2 justify-between md:items-center"
                   >
-                    <p>{document.file}</p>
+                    <p className="font-semibold">{document.file}</p>
                     <a
                       className="text-blue-600 underline"
                       href={document.file}

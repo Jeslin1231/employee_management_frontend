@@ -113,8 +113,8 @@ const EmergencySection = (props: EmergencySectionProps) => {
     >
       {formik.values.emergencyContact.map((contact, index) => (
         <div key={contact.id}>
-          <div className="flex my-5 justify-between w-full">
-            <div className="flex flex-col w-1/4">
+          <div className="flex flex-col md:flex-row my-5 justify-between w-full">
+            <div className="flex flex-col w-full md:w-1/4">
               <Label className="my-1 text-md font-semibold">First Name</Label>
               <Input
                 name={`emergencyContact[${index}].firstName`}
@@ -130,7 +130,7 @@ const EmergencySection = (props: EmergencySectionProps) => {
                   formik.errors.emergencyContact?.[index]?.firstName}
               </p>
             </div>
-            <div className="flex flex-col w-1/4">
+            <div className="flex flex-col w-full md:w-1/4">
               <Label className="my-1 text-md font-semibold">Middle Name</Label>
               <Input
                 name={`emergencyContact[${index}].middleName`}
@@ -146,7 +146,7 @@ const EmergencySection = (props: EmergencySectionProps) => {
                   formik.errors.emergencyContact?.[index]?.middleName}
               </p>
             </div>
-            <div className="flex flex-col w-1/4">
+            <div className="flex flex-col w-full md:w-1/4">
               <Label className="my-1 text-md font-semibold">Last Name</Label>
               <Input
                 name={`emergencyContact[${index}].lastName`}
@@ -163,8 +163,8 @@ const EmergencySection = (props: EmergencySectionProps) => {
               </p>
             </div>
           </div>
-          <div className="flex my-5 justify-between w-full">
-            <div className="flex flex-col w-1/3">
+          <div className="flex flex-col md:flex-row my-5 justify-between w-full">
+            <div className="flex flex-col w-full md:w-1/3">
               <Label className="my-1 text-md font-semibold">Email</Label>
               <Input
                 name={`emergencyContact[${index}].email`}
@@ -180,7 +180,7 @@ const EmergencySection = (props: EmergencySectionProps) => {
                   formik.errors.emergencyContact?.[index]?.email}
               </p>
             </div>
-            <div className="flex flex-col w-1/3">
+            <div className="flex flex-col w-full md:w-1/3">
               <Label className="my-1 text-md font-semibold">Phone</Label>
               <Input
                 name={`emergencyContact[${index}].phone`}
@@ -196,7 +196,7 @@ const EmergencySection = (props: EmergencySectionProps) => {
                   formik.errors.emergencyContact?.[index]?.phone}
               </p>
             </div>
-            <div className="flex flex-col w-1/4">
+            <div className="flex flex-col w-full md:w-1/4">
               <Label className="my-1 text-md font-semibold">relationship</Label>
               <Input
                 name={`emergencyContact[${index}].relationship`}

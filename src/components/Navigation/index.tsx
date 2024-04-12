@@ -51,7 +51,7 @@ const Navigation = () => {
 
   return (
     <div className="sticky top-0 flex backdrop-filter backdrop-blur-md bg-opacity-30 bg-slate-200 py-4 justify-around items-center z-[100]">
-      <div className="font-bold text-3xl ">Company A</div>
+      <div className="font-bold text-xl md:text-3xl ">Company A</div>
 
       <NavigationMenu>
         <NavigationMenuList>

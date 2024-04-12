@@ -118,8 +118,8 @@ const NameSection = (props: NameSectionProps) => {
         setEditable(false);
       }}
     >
-      <div className="flex my-5 items-center justify-between w-full">
-        <div className="flex w-1/5">
+      <div className="flex flex-col md:flex-row my-5 items-center justify-between w-full">
+        <div className="flex w-1/2 md:w-1/5">
           <Input
             type="file"
             id="avatar"
@@ -147,7 +147,7 @@ const NameSection = (props: NameSectionProps) => {
             {formik.touched.avatar && formik.errors.avatar}
           </p>
         </div>
-        <div className="flex flex-col w-3/5">
+        <div className="flex flex-col w-full md:w-3/5">
           <div className="flex flex-col my-1 items-center justify-between w-full">
             <div className="flex flex-col w-full">
               <Label className="my-1 text-md font-semibold">Email</Label>
@@ -164,8 +164,8 @@ const NameSection = (props: NameSectionProps) => {
               </p>
             </div>
           </div>
-          <div className="flex my-1 items-center justify-between w-full">
-            <div className="flex flex-col w-2/5">
+          <div className="flex flex-col md:flex-row my-1 items-center justify-between w-full">
+            <div className="flex flex-col w-full md:w-2/5">
               <Label className="my-1 text-md font-semibold">First Name</Label>
               <Input
                 name="firstName"
@@ -179,7 +179,7 @@ const NameSection = (props: NameSectionProps) => {
                 {formik.touched.firstName && formik.errors.firstName}
               </p>
             </div>
-            <div className="flex flex-col w-2/5">
+            <div className="flex flex-col w-full md:w-2/5">
               <Label className="my-1 text-md font-semibold">Last Name</Label>
               <Input
                 name="lastName"
@@ -194,8 +194,8 @@ const NameSection = (props: NameSectionProps) => {
               </p>
             </div>
           </div>
-          <div className="flex my-1 items-center justify-between w-full">
-            <div className="flex flex-col w-2/5">
+          <div className="flex flex-col md:flex-row my-1 items-center justify-between w-full">
+            <div className="flex flex-col w-full md:w-2/5">
               <Label className="my-1 text-md font-semibold">Middle Name</Label>
               <Input
                 name="middleName"
@@ -209,7 +209,7 @@ const NameSection = (props: NameSectionProps) => {
                 {formik.touched.middleName && formik.errors.middleName}
               </p>
             </div>
-            <div className="flex flex-col w-2/5">
+            <div className="flex flex-col w-full md:w-2/5">
               <Label className="my-1 text-md font-semibold">
                 Preferred Name
               </Label>
@@ -228,8 +228,8 @@ const NameSection = (props: NameSectionProps) => {
           </div>
         </div>
       </div>
-      <div className="flex my-5 justify-between w-full">
-        <div className="flex flex-col w-1/3">
+      <div className="flex flex-col md:flex-row my-5 justify-between w-full">
+        <div className="flex flex-col w-full md:w-1/3">
           <Label className="my-1 text-md font-semibold">SSN</Label>
           <Input
             name="ssn"
@@ -243,7 +243,7 @@ const NameSection = (props: NameSectionProps) => {
             {formik.touched.ssn && formik.errors.ssn}
           </p>
         </div>
-        <div className="flex flex-col w-1/4">
+        <div className="flex flex-col w-full md:w-1/4">
           <Label className="my-1 text-md font-semibold">Date of Birth</Label>
           <DatePicker
             disabled={!editable}
@@ -256,7 +256,7 @@ const NameSection = (props: NameSectionProps) => {
             {formik.touched.dateOfBirth && formik.errors.dateOfBirth}
           </p>
         </div>
-        <div className="flex flex-col w-1/5">
+        <div className="flex flex-col w-full md:w-1/5">
           <Label className="my-1 text-md font-semibold">Gender</Label>
           <Combobox
             open={genderOpen}

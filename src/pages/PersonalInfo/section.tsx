@@ -17,7 +17,9 @@ const Section = (props: SectionProps) => {
   return (
     <form className="my-5" onSubmit={props.onSubmit}>
       <div className="flex justify-between my-5">
-        <header className="text-2xl font-semibold">{props.title}</header>
+        <header className="text-lg md:text-2xl font-semibold">
+          {props.title}
+        </header>
         {props.editable ? (
           <div className="flex justify-end">
             <Button disabled={props.loading} className="mr-5" type="submit">

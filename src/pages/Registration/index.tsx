@@ -92,7 +92,7 @@ const Registration = () => {
   if (checkTokenLoading) {
     return (
       <div className="flex flex-grow">
-        <div className="w-2/5 flex flex-col justify-center items-center m-auto">
+        <div className="w-full md:w-2/5 flex flex-col justify-center items-center m-auto">
           <p className="text-center font-bold font-2xl">Checking Token...</p>
         </div>
       </div>
@@ -102,7 +102,7 @@ const Registration = () => {
   if (checkTokenError) {
     return (
       <div className="flex flex-grow">
-        <div className="w-2/5 flex flex-col m-auto">
+        <div className="w-11/12 md:w-2/5 flex flex-col m-auto">
           <p className="font-bold text-2xl">
             {checkTokenError.graphQLErrors[0].message}
           </p>
@@ -116,7 +116,7 @@ const Registration = () => {
 
   return (
     <div className="flex flex-grow">
-      <div className="w-2/5 flex flex-col m-auto">
+      <div className="w-11/12 md:w-2/5 flex flex-col m-auto">
         <Form
           title="Registration"
           buttonText="Submit"

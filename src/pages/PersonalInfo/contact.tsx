@@ -78,8 +78,8 @@ const ContactSection = (props: ContactSectionProps) => {
         setEditable(false);
       }}
     >
-      <div className="flex my-5 justify-between w-full">
-        <div className="flex flex-col w-2/5">
+      <div className="flex flex-col md:flex-row my-5 justify-between w-full">
+        <div className="flex flex-col w-full md:w-2/5">
           <Label className="my-1 text-md font-semibold">Cell Phone</Label>
           <Input
             name="cellPhone"
@@ -93,7 +93,7 @@ const ContactSection = (props: ContactSectionProps) => {
             {formik.touched.cellPhone && formik.errors.cellPhone}
           </p>
         </div>
-        <div className="flex flex-col w-2/5">
+        <div className="flex flex-col w-full md:w-2/5">
           <Label className="my-1 text-md font-semibold">Work Phone</Label>
           <Input
             name="workPhone"

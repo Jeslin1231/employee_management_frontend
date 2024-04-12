@@ -207,19 +207,19 @@ const Onboarding: react.FC = () => {
 
       <form className="flex-grow" onSubmit={handleSubmit}>
         <fieldset
-          className="flex flex-col w-4/5 mx-auto bg-white rounded-lg mb-2"
+          className="flex flex-col w-full md:w-4/5 mx-auto bg-white rounded-lg mb-2"
           disabled={!editable}
         >
-          <header className="text-3xl font-semibold mt-16 mb-5 mx-28">
+          <header className="text-xl md:text-3xl font-semibold mt-16 mb-5 mx-14 md:mx-28">
             Onboarding Application
           </header>
           <Separator className="my-5 w-4/5 self-center" />
-          <div className="flex flex-col my-5 mx-44">
-            <header className="text-2xl font-semibold my-5">
+          <div className="flex flex-col my-5 mx-20 md:mx-44">
+            <header className="text-lg md:text-2xl font-semibold my-5">
               Personal Information
             </header>
-            <div className="flex my-5 items-center justify-between w-full">
-              <div className="flex flex-col w-1/4 items-center mr-10">
+            <div className="flex flex-col md:flex-row my-5 items-center justify-between w-full">
+              <div className="flex flex-col mb-5 md:mb-0 md:w-1/4 items-center md:mr-10">
                 <Input
                   onChange={handleFileChange(
                     200000,
@@ -245,8 +245,8 @@ const Onboarding: react.FC = () => {
                 </p>
               </div>
               <div className="flex-grow flex flex-col w-full">
-                <div className="flex justify-between mb-1">
-                  <div className="flex flex-col w-2/5">
+                <div className="flex flex-col md:flex-row justify-between mb-1">
+                  <div className="flex flex-col md:w-2/5">
                     <Label className="my-1 text-md font-semibold">
                       First Name*
                     </Label>
@@ -261,7 +261,7 @@ const Onboarding: react.FC = () => {
                       {touched.firstName && errors.firstName}
                     </p>
                   </div>
-                  <div className="flex flex-col w-2/5">
+                  <div className="flex flex-col md:w-2/5">
                     <Label className="my-1 text-md font-semibold">
                       Last Name*
                     </Label>
@@ -277,8 +277,8 @@ const Onboarding: react.FC = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex justify-between">
-                  <div className="flex flex-col w-2/5">
+                <div className="flex flex-col md:flex-row justify-between">
+                  <div className="flex flex-col md:w-2/5">
                     <Label className="my-1 text-md font-semibold">
                       Middle Name
                     </Label>
@@ -293,7 +293,7 @@ const Onboarding: react.FC = () => {
                       {touched.middleName && errors.middleName}
                     </p>
                   </div>
-                  <div className="flex flex-col w-2/5">
+                  <div className="flex flex-col md:w-2/5">
                     <Label className="my-1 text-md font-semibold">
                       Preferred Name
                     </Label>
@@ -311,8 +311,8 @@ const Onboarding: react.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="flex my-5 justify-between w-full">
-              <div className="flex flex-col w-1/2">
+            <div className="flex flex-col md:flex-row my-5 justify-between w-full">
+              <div className="flex flex-col md:w-1/2">
                 <Label className="my-1 text-md font-semibold">Street*</Label>
                 <Input
                   name="street"
@@ -325,7 +325,7 @@ const Onboarding: react.FC = () => {
                   {touched.street && errors.street}
                 </p>
               </div>
-              <div className="flex flex-col w-1/3">
+              <div className="flex flex-col md:w-1/3">
                 <Label className="my-1 text-md font-semibold">APT</Label>
                 <Input
                   name="apt"
@@ -336,8 +336,8 @@ const Onboarding: react.FC = () => {
                 />
               </div>
             </div>
-            <div className="flex my-5 justify-between w-full">
-              <div className="flex flex-col w-1/4">
+            <div className="flex flex-col md:flex-row my-5 justify-between w-full">
+              <div className="flex flex-col md:w-1/4">
                 <Label className="my-1 text-md font-semibold">City*</Label>
                 <Input
                   name="city"
@@ -350,7 +350,7 @@ const Onboarding: react.FC = () => {
                   {touched.city && errors.city}
                 </p>
               </div>
-              <div className="flex flex-col w-1/5">
+              <div className="flex flex-col md:w-1/5">
                 <Label className="my-1 text-md font-semibold">State*</Label>
                 <Combobox
                   open={stateOpen}
@@ -371,7 +371,7 @@ const Onboarding: react.FC = () => {
                   {touched.state && errors.state}
                 </p>
               </div>
-              <div className="flex flex-col w-1/4">
+              <div className="flex flex-col md:w-1/4">
                 <Label className="my-1 text-md font-semibold">Zip Code*</Label>
                 <Input
                   name="zip"
@@ -385,8 +385,8 @@ const Onboarding: react.FC = () => {
                 </p>
               </div>
             </div>
-            <div className="flex my-5 justify-between w-full">
-              <div className="flex flex-col w-1/2">
+            <div className="flex flex-col md:flex-row my-5 justify-between w-full">
+              <div className="flex flex-col md:w-1/2">
                 <Label className="my-1 text-md font-semibold">Email*</Label>
                 <Input
                   name="email"
@@ -399,7 +399,7 @@ const Onboarding: react.FC = () => {
                   {touched.email && errors.email}
                 </p>
               </div>
-              <div className="flex flex-col w-1/3">
+              <div className="flex flex-col md:w-1/3">
                 <Label className="my-1 text-md font-semibold">
                   Cell Phone*
                 </Label>
@@ -415,8 +415,8 @@ const Onboarding: react.FC = () => {
                 </p>
               </div>
             </div>
-            <div className="flex my-5 justify-between w-full">
-              <div className="flex flex-col w-1/3">
+            <div className="flex flex-col md:flex-row my-5 justify-between w-full">
+              <div className="flex flex-col md:w-1/3">
                 <Label className="my-1 text-md font-semibold">SSN*</Label>
                 <Input
                   name="ssn"
@@ -429,7 +429,7 @@ const Onboarding: react.FC = () => {
                   {touched.ssn && errors.ssn}
                 </p>
               </div>
-              <div className="flex flex-col w-1/4">
+              <div className="flex flex-col md:w-1/4">
                 <Label className="my-1 text-md font-semibold">
                   Date of Birth*
                 </Label>
@@ -443,7 +443,7 @@ const Onboarding: react.FC = () => {
                   {touched.dateOfBirth && errors.dateOfBirth}
                 </p>
               </div>
-              <div className="flex flex-col w-1/5">
+              <div className="flex flex-col md:w-1/5">
                 <Label className="my-1 text-md font-semibold">Gender*</Label>
                 <Combobox
                   open={genderOpen}
@@ -464,8 +464,8 @@ const Onboarding: react.FC = () => {
                 </p>
               </div>
             </div>
-            <div className="flex my-5 justify-start w-full">
-              <div className="flex flex-col w-2/5">
+            <div className="flex flex-col md:flex-row my-5 justify-between md:justify-start w-full">
+              <div className="flex flex-col w-full md:w-2/5">
                 <Combobox
                   open={citizenOpen}
                   value={values.citizen}
@@ -495,7 +495,7 @@ const Onboarding: react.FC = () => {
                 </p>
               </div>
               {values.citizen === 'yes' && (
-                <div className="ml-10 flex flex-col w-1/3">
+                <div className="md:ml-10 flex flex-col w-full md:w-1/3">
                   <Combobox
                     open={identityOpen}
                     value={values.identity}
@@ -517,8 +517,8 @@ const Onboarding: react.FC = () => {
               )}
             </div>
             {values.citizen === 'no' && (
-              <div className="flex my-5 justify-between items-end w-full">
-                <div className="flex flex-col w-2/5">
+              <div className="flex flex-col md:flex-row my-5 justify-between md:items-end w-full">
+                <div className="flex flex-col w-full md:w-2/5">
                   <Combobox
                     open={visaOpen}
                     value={values.visa}
@@ -543,7 +543,7 @@ const Onboarding: react.FC = () => {
                     {touched.visa && errors.visa}
                   </p>
                 </div>
-                <div className="flex flex-col w-1/5">
+                <div className="flex flex-col w-full md:w-1/5">
                   <Label className="my-1 text-md font-semibold">
                     Start Date
                   </Label>
@@ -557,7 +557,7 @@ const Onboarding: react.FC = () => {
                     {touched.startDate && errors.startDate}
                   </p>
                 </div>
-                <div className="flex flex-col w-1/5">
+                <div className="flex flex-col w-full md:w-1/5">
                   <Label className="my-1 text-md font-semibold">End Date</Label>
                   <DatePicker
                     value={values.endDate}
@@ -572,8 +572,8 @@ const Onboarding: react.FC = () => {
               </div>
             )}
             {values.visa === 'other' && (
-              <div className="flex my-5 justify-between w-full">
-                <div className="flex flex-col w-1/2">
+              <div className="flex flex-col md:flex-row my-5 justify-between w-full">
+                <div className="flex flex-col md:w-1/2">
                   <Input
                     name="visaType"
                     value={values.visaType}
@@ -588,8 +588,8 @@ const Onboarding: react.FC = () => {
               </div>
             )}
             {values.visa === 'f1' && (
-              <div className="flex my-5 justify-between w-full">
-                <div className="flex flex-col w-1/2">
+              <div className="flex flex-col md:flex-row my-5 justify-between w-full">
+                <div className="flex flex-col w-full md:w-1/2">
                   <Label className="my-1 text-md font-semibold">
                     OPT Receipt
                   </Label>
@@ -613,21 +613,24 @@ const Onboarding: react.FC = () => {
             <Separator className="my-2 self-center" />
             <header className="my-5">
               <Checkbox
-                className="mr-2"
+                className="md:mr-2"
                 name="reference"
                 checked={values.reference}
                 onCheckedChange={() => {
                   setFieldValue('reference', !values.reference);
                 }}
               />
-              <Label className="text-2xl font-semibold" htmlFor="reference">
+              <Label
+                className="text-lg md:text-2xl font-semibold"
+                htmlFor="reference"
+              >
                 Reference Information
               </Label>
             </header>
             {values.reference && (
               <>
-                <div className="flex my-5 justify-between w-full">
-                  <div className="flex flex-col w-1/4">
+                <div className="flex flex-col md:flex-row my-5 justify-between w-full">
+                  <div className="flex flex-col md:w-1/4">
                     <Label className="my-1 text-md font-semibold">
                       First Name*
                     </Label>
@@ -642,7 +645,7 @@ const Onboarding: react.FC = () => {
                       {touched.referenceFirstName && errors.referenceFirstName}
                     </p>
                   </div>
-                  <div className="flex flex-col w-1/4">
+                  <div className="flex flex-col md:w-1/4">
                     <Label className="my-1 text-md font-semibold">
                       Middle Name
                     </Label>
@@ -658,7 +661,7 @@ const Onboarding: react.FC = () => {
                         errors.referenceMiddleName}
                     </p>
                   </div>
-                  <div className="flex flex-col w-1/4">
+                  <div className="flex flex-col md:w-1/4">
                     <Label className="my-1 text-md font-semibold">
                       Last Name*
                     </Label>
@@ -674,8 +677,8 @@ const Onboarding: react.FC = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex my-5 justify-between w-full">
-                  <div className="flex flex-col w-1/3">
+                <div className="flex my-5 flex-col md:flex-row justify-between w-full">
+                  <div className="flex flex-col md:w-1/3">
                     <Label className="my-1 text-md font-semibold">Email</Label>
                     <Input
                       name="referenceEmail"
@@ -688,7 +691,7 @@ const Onboarding: react.FC = () => {
                       {touched.referenceEmail && errors.referenceEmail}
                     </p>
                   </div>
-                  <div className="flex flex-col w-1/3">
+                  <div className="flex flex-col md:w-1/3">
                     <Label className="my-1 text-md font-semibold">Phone</Label>
                     <Input
                       name="referencePhone"
@@ -701,7 +704,7 @@ const Onboarding: react.FC = () => {
                       {touched.referencePhone && errors.referencePhone}
                     </p>
                   </div>
-                  <div className="flex flex-col w-1/4">
+                  <div className="flex flex-col md:w-1/4">
                     <Label className="my-1 text-md font-semibold">
                       Relationship*
                     </Label>
@@ -721,7 +724,7 @@ const Onboarding: react.FC = () => {
               </>
             )}
             <Separator className="my-2 self-center" />
-            <header className="text-2xl font-semibold my-5">
+            <header className="text-lg md:text-2xl font-semibold my-5">
               Emergency Contact
             </header>
             {values.emergencyContact.map((contact, index) => {
@@ -734,8 +737,8 @@ const Onboarding: react.FC = () => {
 
               return (
                 <div key={contact.id}>
-                  <div className="flex my-5 justify-between w-full">
-                    <div className="flex flex-col w-1/4">
+                  <div className="flex flex-col md:flex-row my-5 justify-between w-full">
+                    <div className="flex flex-col md:w-1/4">
                       <Label className="my-1 text-md font-semibold">
                         First Name*
                       </Label>
@@ -752,7 +755,7 @@ const Onboarding: react.FC = () => {
                           errors.emergencyContact?.[index]?.firstName}
                       </p>
                     </div>
-                    <div className="flex flex-col w-1/4">
+                    <div className="flex flex-col md:w-1/4">
                       <Label className="my-1 text-md font-semibold">
                         Middle Name
                       </Label>
@@ -769,7 +772,7 @@ const Onboarding: react.FC = () => {
                           errors.emergencyContact?.[index]?.middleName}
                       </p>
                     </div>
-                    <div className="flex flex-col w-1/4">
+                    <div className="flex flex-col md:w-1/4">
                       <Label className="my-1 text-md font-semibold">
                         Last Name*
                       </Label>
@@ -787,8 +790,8 @@ const Onboarding: react.FC = () => {
                       </p>
                     </div>
                   </div>
-                  <div className="flex my-5 justify-between w-full">
-                    <div className="flex flex-col w-1/3">
+                  <div className="flex flex-col md:flex-row my-5 justify-between w-full">
+                    <div className="flex flex-col md:w-1/3">
                       <Label className="my-1 text-md font-semibold">
                         Email
                       </Label>
@@ -805,7 +808,7 @@ const Onboarding: react.FC = () => {
                           errors.emergencyContact?.[index]?.email}
                       </p>
                     </div>
-                    <div className="flex flex-col w-1/3">
+                    <div className="flex flex-col md:w-1/3">
                       <Label className="my-1 text-md font-semibold">
                         Phone
                       </Label>
@@ -822,7 +825,7 @@ const Onboarding: react.FC = () => {
                           errors.emergencyContact?.[index]?.phone}
                       </p>
                     </div>
-                    <div className="flex flex-col w-1/4">
+                    <div className="flex flex-col md:w-1/4">
                       <Label className="my-1 text-md font-semibold">
                         Relationship*
                       </Label>
@@ -880,13 +883,15 @@ const Onboarding: react.FC = () => {
             {(avatarImage || receiptFile) && (
               <>
                 <Separator className="my-2 self-center" />
-                <header className="text-2xl font-semibold my-5">
+                <header className="text-lg md:text-2xl font-semibold my-5">
                   Upload Documents
                 </header>
                 <ul className="flex flex-col w-full">
                   {avatarImage && (
-                    <li className="flex my-2 justify-between items-center">
-                      <p>Profile Picture</p>
+                    <li className="flex flex-col md:flex-row my-2 justify-between md:items-center">
+                      <p className="font-semibold md:font-normal">
+                        Profile Picture
+                      </p>
                       <p>{avatarImage.name}</p>
                       <a
                         className="text-blue-600 underline"

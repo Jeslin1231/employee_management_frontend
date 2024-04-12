@@ -99,8 +99,8 @@ const AddressSection = (props: AddressSectionArgs) => {
         setEditable(false);
       }}
     >
-      <div className="flex my-5 justify-between w-full">
-        <div className="flex flex-col w-1/2">
+      <div className="flex flex-col md:flex-row my-5 justify-between w-full">
+        <div className="flex flex-col w-full md:w-1/2">
           <Label className="my-1 text-md font-semibold">Street</Label>
           <Input
             name="street"
@@ -114,7 +114,7 @@ const AddressSection = (props: AddressSectionArgs) => {
             {formik.errors.street && formik.errors.street}
           </p>
         </div>
-        <div className="flex flex-col w-1/3">
+        <div className="flex flex-col w-full md:w-1/3">
           <Label className="my-1 text-md font-semibold">APT</Label>
           <Input
             name="apt"
@@ -129,8 +129,8 @@ const AddressSection = (props: AddressSectionArgs) => {
           </p>
         </div>
       </div>
-      <div className="flex my-5 justify-between w-full">
-        <div className="flex flex-col w-1/4">
+      <div className="flex flex-col md:flex-row my-5 justify-between w-full">
+        <div className="flex flex-col w-full md:w-1/4">
           <Label className="my-1 text-md font-semibold">City</Label>
           <Input
             name="city"
@@ -144,7 +144,7 @@ const AddressSection = (props: AddressSectionArgs) => {
             {formik.errors.city && formik.errors.city}
           </p>
         </div>
-        <div className="flex flex-col w-1/5">
+        <div className="flex flex-col w-full md:w-1/5">
           <Label className="my-1 text-md font-semibold">State</Label>
           <Combobox
             open={stateOpen}
@@ -166,7 +166,7 @@ const AddressSection = (props: AddressSectionArgs) => {
             {formik.errors.state && formik.errors.state}
           </p>
         </div>
-        <div className="flex flex-col w-1/4">
+        <div className="flex flex-col w-full md:w-1/4">
           <Label className="my-1 text-md font-semibold">Zip Code</Label>
           <Input
             name="zip"

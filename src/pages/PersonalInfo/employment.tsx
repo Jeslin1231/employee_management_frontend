@@ -95,8 +95,8 @@ const EmploymentSection = (props: EmploymentSectionProps) => {
       onEdit={() => setEditable(!editable)}
       onSubmit={formik.handleSubmit}
     >
-      <div className="flex my-5 justify-between items-end w-full">
-        <div className="flex flex-col w-2/5">
+      <div className="flex flex-col md:flex-row my-5 justify-between md:items-end w-full">
+        <div className="flex flex-col w-full md:w-2/5">
           <Label className="my-1 text-md font-semibold">Visa Title</Label>
           <Combobox
             open={visaOpen}
@@ -117,7 +117,7 @@ const EmploymentSection = (props: EmploymentSectionProps) => {
             {formik.touched.visa && formik.errors.visa}
           </p>
         </div>
-        <div className="flex flex-col w-1/5">
+        <div className="flex flex-col w-full md:w-1/5">
           <Label className="my-1 text-md font-semibold">Start Date</Label>
           <DatePicker
             value={formik.values.startDate}
@@ -130,7 +130,7 @@ const EmploymentSection = (props: EmploymentSectionProps) => {
             {formik.touched.startDate && formik.errors.startDate}
           </p>
         </div>
-        <div className="flex flex-col w-1/5">
+        <div className="flex flex-col w-full md:w-1/5">
           <Label className="my-1 text-md font-semibold">End Date</Label>
           <DatePicker
             value={formik.values.endDate}

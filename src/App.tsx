@@ -29,7 +29,7 @@ const Layout = () => {
 
 const App: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen min-w-full bg-slate-200">
+    <div className="flex flex-col min-h-screen min-w-fit bg-slate-200">
       <Router>
         <ErrorBoundary>
           <Routes>
@@ -44,11 +44,16 @@ const App: React.FC = () => {
             <Route element={<Layout />}>
               <Route
                 path="/onboarding"
-                // element={<ProtectedRoute element={<Onboarding />} />}
-                element={<Onboarding />}
+                element={<ProtectedRoute element={<Onboarding />} />}
               />
-              <Route path="/personal_info" element={<PersonalInfo />} />
-              <Route path="/visa" element={<Visa />} />
+              <Route
+                path="/personal_info"
+                element={<ProtectedRoute element={<PersonalInfo />} />}
+              />
+              <Route
+                path="/visa"
+                element={<ProtectedRoute element={<Visa />} />}
+              />
 
               {/* HR Pages */}
               <Route
