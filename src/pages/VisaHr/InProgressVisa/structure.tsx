@@ -36,6 +36,17 @@ const GIVE_FEEDBACK = gql`
   }
 `;
 
+const SEND_NOTIFICATION = gql`
+  mutation SendVisaDocNotification($userId: String!) {
+    sendVisaDocNotification(userId: $userId) {
+      api
+      type
+      status
+      message
+    }
+  }
+`;
+
 export const columns: ColumnDef<Employee>[] = [
   {
     accessorKey: 'fullName',
@@ -145,8 +156,30 @@ export const columns: ColumnDef<Employee>[] = [
           ),
         });
 
-      const handleNotification = () => {
-        alert('notification');
+      const [sendNotification] =
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        useMutation(SEND_NOTIFICATION, {
+          onCompleted: () => {
+            alert('Notification Sent Successfully');
+          },
+          onError: handleApolloError(
+            <ToastAction
+              altText="Try Again"
+              onClick={() => window.location.reload()}
+            >
+              Error sending notification. Try again.
+            </ToastAction>,
+          ),
+        });
+
+      const handleNotification = async () => {
+        await sendNotification({
+          variables: {
+            token,
+            userId: row.original.id,
+          },
+        });
+        // window.location.reload();
       };
 
       // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -178,7 +211,7 @@ export const columns: ColumnDef<Employee>[] = [
             id: row.original.id,
             doc: docName,
             feedback: `${feedback}`,
-            status: 'approved',
+            status: 'rejected',
           },
         });
         window.location.reload();
