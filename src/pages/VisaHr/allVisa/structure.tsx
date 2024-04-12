@@ -1,5 +1,6 @@
 import type { ColumnDef } from '@tanstack/react-table';
-import { Divide, MoreHorizontal } from 'lucide-react';
+import { handleNextStep } from '../functions';
+import { MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -10,27 +11,31 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import Tooltip from '@/components/Tooltip/index';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-
 export type Employee = {
-  id: string;
   fullName: string;
-  userName: string;
-  workAuth: {
-    title: string;
-    startDate: string;
-    endDate: string;
-    remainingDays: number;
+  preferredName: string;
+  visaTitle: string;
+  visaStartDate: string;
+  visaEndDate: string;
+  optReceipt: {
+    feedback: string;
+    url: string;
+    status: string;
   };
-  nextStep: string;
-
-  visa: {
-    opt_receipt: string;
-    opt_ead: string;
-    i983: string;
-    i20: string;
+  optEad: {
+    feedback: string;
+    url: string;
+    status: string;
+  };
+  i983: {
+    feedback: string;
+    url: string;
+    status: string;
+  };
+  i20: {
+    feedback: string;
+    url: string;
+    status: string;
   };
 };
 
@@ -44,10 +49,10 @@ export const columns: ColumnDef<Employee>[] = [
   },
 
   {
-    accessorKey: 'userName',
-    header: () => <div className="text-center my-6">User Name</div>,
+    accessorKey: 'preferredName',
+    header: () => <div className="text-center my-6">Preferred Name</div>,
     cell: ({ row }) => {
-      return <div className="text-center">{row.original.userName}</div>;
+      return <div className="text-center">{row.original.preferredName}</div>;
     },
   },
 
@@ -55,34 +60,59 @@ export const columns: ColumnDef<Employee>[] = [
     accessorKey: 'workAuth',
     header: () => <div className="text-center my-0">Work Authorization</div>,
     cell: ({ row }) => {
+      function formatDate(date: Date) {
+        // Get month, day, and year
+        const month = date.getMonth() + 1; // Months are zero-based, so we add 1
+        const day = date.getDate();
+        const year = date.getFullYear();
+
+        // Format the date as "MM-DD-YYYY"
+        const formattedDate = `${month}-${day}-${year}`;
+
+        return formattedDate;
+      }
+
+      const startDate = new Date(row.original.visaStartDate);
+      const endDate = new Date(row.original.visaEndDate);
+      const formattedStartDate = formatDate(startDate);
+      const formattedEndDate = formatDate(endDate);
+
+      const now = new Date();
+
+      const differenceMs = endDate.getTime() - now.getTime();
+      const remainingDays = Math.ceil(differenceMs / (1000 * 60 * 60 * 24));
+
       return (
         <div className="flex justify-center">
           <div className="flex flex-col justify-center px-1 w-30 border-l-2">
             <div>
-              <span>Title: {row.original.workAuth.title}</span>
+              <span>Title: {row.original.visaTitle}</span>
             </div>
             <div>
-              <span>Remaining Days: {row.original.workAuth.remainingDays}</span>
+              <span>Remaining Days: {remainingDays}</span>
             </div>
           </div>
 
           <div className="flex flex-col justify-center w-40 px-1 border-l-2">
             <div>
-              <span>Start Date: {row.original.workAuth.startDate}</span>
+              <span>Start Date: {formattedStartDate} </span>
             </div>
             <div>
-              <span>End Date: {row.original.workAuth.endDate}</span>
+              <span>End Date: {formattedEndDate} </span>
             </div>
           </div>
         </div>
       );
     },
   },
+
   {
-    accessorKey: 'nextStep',
-    header: () => <div className="text-center my-0">Next Step</div>,
+    accessorKey: 'next',
+    header: () => <div className="text-center my-6">Next Step</div>,
     cell: ({ row }) => {
-      return <div className="text-center">{row.original.nextStep}</div>;
+      const next = handleNextStep(row.original);
+
+      return <div className="text-center">{next}</div>;
     },
   },
 
@@ -90,34 +120,48 @@ export const columns: ColumnDef<Employee>[] = [
     id: 'preview',
     header: () => <div className="text-center my-0">Documents</div>,
     cell: ({ row }) => {
-      const visaData = row.original.visa;
+      const visaData = [
+        row.original.optReceipt,
+        row.original.optEad,
+        row.original.i983,
+        row.original.i20,
+      ];
+      const visa = ['OPT Receipt', 'OPT EAD', 'I-983', 'I-20'];
+      const status = [
+        row.original.optReceipt.status,
+        row.original.optEad.status,
+        row.original.i983.status,
+        row.original.i20.status,
+      ];
 
-      const hasDocuments = Object.entries(visaData).map(([key, value]) => {
-        const fileUrl = `/visa/${row.original.id}/${key}`;
-        const downloadFile = () => {
-          alert('Downloaded');
-        };
-        const previewFile = () => {
-          // if (fileUrl) {
-          //   window.open(fileUrl, '_blank');
-          // }
-
-          alert('Preview');
-        };
-
-        if (value !== 'Unsubmitted') {
+      // eslint-disable-next-line array-callback-return
+      const hasDocuments = visaData.map((doc, index) => {
+        if (doc.status !== 'unsubmitted' && doc.status !== 'rejected') {
           return (
-            <div key={key} className="flex flex-col m-2 gap-2">
+            <div key={index} className="flex flex-col m-2 gap-2">
               <DropdownMenuSeparator />
-              {key} : {value}
+              {visa[index]} : {doc.status}
+              {/* {key} : {value} */}
               <div className="flex gap-2">
-                <Button variant="outline" onClick={previewFile}>
-                  <DropdownMenuItem>Preview</DropdownMenuItem>
-                </Button>
-
-                <Button variant="outline" onClick={downloadFile}>
-                  <DropdownMenuItem>Download</DropdownMenuItem>
-                </Button>
+                <a
+                  href={`${doc.url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button variant="outline">
+                    <DropdownMenuItem>Preview</DropdownMenuItem>
+                  </Button>
+                </a>
+                <a
+                  href={`${doc.url}`}
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button variant="outline">
+                    <DropdownMenuItem>Download</DropdownMenuItem>
+                  </Button>
+                </a>
               </div>
             </div>
           );
@@ -135,9 +179,7 @@ export const columns: ColumnDef<Employee>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Doc Status & Actions</DropdownMenuLabel>
-              {Object.values(visaData).every(
-                value => value === 'Unsubmitted',
-              ) ? (
+              {status.every(s => s === 'unsubmitted') ? (
                 <div className="p-2">
                   <DropdownMenuSeparator />
                   No Available Document for Preview

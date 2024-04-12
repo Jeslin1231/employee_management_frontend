@@ -59,11 +59,13 @@ export function DataTable<TData, TValue>({
   const fullNameValue =
     (table.getColumn('fullName')?.getFilterValue() as string) ?? '';
 
-  const handleUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    table.getColumn('userName')?.setFilterValue(event.target.value);
+  const handlePreferredNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    table.getColumn('preferredName')?.setFilterValue(event.target.value);
   };
-  const userNameValue =
-    (table.getColumn('userName')?.getFilterValue() as string) ?? '';
+  const preferredNameValue =
+    (table.getColumn('preferredName')?.getFilterValue() as string) ?? '';
 
   return (
     <div>
@@ -81,8 +83,8 @@ export function DataTable<TData, TValue>({
           <div className="mr-4 text-gray-400">Search Employee User Name: </div>
           <Input
             placeholder="🔍Enter username to search..."
-            value={userNameValue}
-            onChange={handleUserNameChange}
+            value={preferredNameValue}
+            onChange={handlePreferredNameChange}
             className="max-w-sm"
           />
         </div>
