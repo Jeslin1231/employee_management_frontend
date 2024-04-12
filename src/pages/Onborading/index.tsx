@@ -9,7 +9,11 @@ import { DatePicker } from '@/components/ui/datepicker';
 import { Separator } from '@/components/ui/separator';
 import { genders, states, citizenOp, identities, visaTypes } from './options';
 import { useAppSelector } from '@/app/hooks';
-import { selectOnboardingStatus, selectToken } from '@/features/auth/AuthSlice';
+import {
+  selectOnboardingStatus,
+  selectToken,
+  selectRole,
+} from '@/features/auth/AuthSlice';
 import { useFormik } from 'formik';
 import { initialValues } from './values';
 import { handleFileChange, valuesToVariables } from './utils';
@@ -17,13 +21,20 @@ import { validationSchema } from './validate';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useNavigate } from 'react-router-dom';
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { FETCH, ONBOARDING } from './gql';
+import { FETCH, ONBOARDING, FEEDBACK } from './gql';
 import { handleApolloError } from '@/utils/error';
 import { Loader2 } from 'lucide-react';
+import { useParams } from 'react-router-dom';
+import { Textarea } from '@/components/ui/textarea';
+import { ToastAction } from '@/components/ui/toast';
 
 const Onboarding: react.FC = () => {
   const token = useAppSelector(selectToken);
   const onboardingStatus = useAppSelector(selectOnboardingStatus);
+  const role = useAppSelector(selectRole);
+  let { id } = useParams();
+  let { status } = useParams();
+  const employeeStatus = status;
 
   const {
     values,
@@ -101,29 +112,82 @@ const Onboarding: react.FC = () => {
   });
 
   const editable = useMemo(
-    () => onboardingStatus !== 'pending',
-    [onboardingStatus],
+    () =>
+      onboardingStatus !== 'pending' &&
+      onboardingStatus !== 'approved' &&
+      role !== 'hr',
+    [onboardingStatus, role],
   );
 
   useEffect(() => {
-    if (onboardingStatus === 'approved') {
-      navigate('/personal_info');
-    } else if (
-      onboardingStatus === 'rejected' ||
-      onboardingStatus === 'pending'
-    ) {
-      fetchOnboarding({ variables: { token } });
+    if (role === 'hr') {
+      const employee = id;
+      fetchOnboarding({ variables: { token, employee } });
+    } else {
+      if (onboardingStatus === 'approved') {
+        navigate('/personal_info');
+      } else if (
+        onboardingStatus === 'rejected' ||
+        onboardingStatus === 'pending'
+      ) {
+        const employee = ' ';
+        fetchOnboarding({ variables: { token, employee } });
+      }
     }
-  }, [onboardingStatus, navigate, fetchOnboarding, token]);
+  }, [onboardingStatus, navigate, fetchOnboarding, token, role, id]);
 
   const [stateOpen, setStateOpen] = useState(false);
   const [genderOpen, setGenderOpen] = useState(false);
   const [citizenOpen, setCitizenOpen] = useState(false);
   const [identityOpen, setIdentityOpen] = useState(false);
   const [visaOpen, setVisaOpen] = useState(false);
+  const [hrFeedback, setHrFeedback] = useState('');
 
   const [avatarImage, setAvatarImage] = useState<File | null>(null);
   const [receiptFile, setReceiptFile] = useState<File | null>(null);
+
+  const [giveFeedback] =
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useMutation(FEEDBACK, {
+      onCompleted: () => {
+        alert('Feedback Submitted Successfully');
+        window.close();
+      },
+      onError: handleApolloError(
+        <ToastAction
+          altText="Try Again"
+          onClick={() => window.location.reload()}
+        >
+          Error giving feedback. Try again.
+        </ToastAction>,
+      ),
+    });
+
+  const handleHRFeedback = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setHrFeedback(e.target.value);
+  };
+
+  const handleHRApprove = async () => {
+    await giveFeedback({
+      variables: {
+        token,
+        employee: id,
+        feedback: ' ',
+        status: 'approved',
+      },
+    });
+  };
+
+  const handleHRReject = async () => {
+    await giveFeedback({
+      variables: {
+        token,
+        employee: id,
+        feedback: hrFeedback,
+        status: 'rejected',
+      },
+    });
+  };
 
   if (fetchLoading) {
     return (
@@ -137,9 +201,10 @@ const Onboarding: react.FC = () => {
     <div className="flex flex-col flex-grow">
       {onboardingStatus === 'rejected' && (
         <p className="text-red-500 text-2xl font-semibold m-auto">
-          {feedback.current}
+          feedback:{feedback.current}
         </p>
       )}
+
       <form className="flex-grow" onSubmit={handleSubmit}>
         <fieldset
           className="flex flex-col w-4/5 mx-auto bg-white rounded-lg mb-2"
@@ -875,6 +940,23 @@ const Onboarding: react.FC = () => {
           </Button>
         </fieldset>
       </form>
+      {role === 'hr' && employeeStatus === 'pending' && (
+        <div className="flex justify-center items-center w-full m-5 gap-20">
+          <Button variant="outline" onClick={handleHRApprove}>
+            Approve
+          </Button>
+          <div className="flex items-center justify-center w-60">
+            <Textarea
+              placeholder="Give some feedback for reject"
+              value={hrFeedback}
+              onChange={handleHRFeedback}
+            />
+            <Button className="ml-2" variant="outline" onClick={handleHRReject}>
+              Reject
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

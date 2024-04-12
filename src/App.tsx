@@ -74,7 +74,7 @@ const App: React.FC = () => {
               />
 
               <Route
-                path="/onboarding_review/:id"
+                path="/onboarding_review/:id/:status"
                 element={<ProtectedHRRoute element={<Onboarding />} />}
                 // element={<ProfilesHr />}
               />

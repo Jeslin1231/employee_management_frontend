@@ -63,7 +63,6 @@ const Token = () => {
       setValidEmail(true);
       // Call the mutation function with the email variable
       const { data } = await createToken({ variables: { token, email } });
-      console.log(data);
     } else {
       setEmail('');
       setValidEmail(false);

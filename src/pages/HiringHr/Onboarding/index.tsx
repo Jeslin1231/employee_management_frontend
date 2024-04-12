@@ -1,12 +1,49 @@
 import React from 'react';
-import { columns, Employee } from './structure';
+import { columns } from './structure';
+import type { Employee } from './structure';
 import { DataTable } from './Table';
 import { employeeData } from './sampleData';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Separator } from '@/components/ui/separator';
+import { useLazyQuery, gql } from '@apollo/client';
+import { ToastAction } from '@/components/ui/toast';
+import { handleApolloError } from '@/utils/error';
+import { useAppSelector } from '@/app/hooks';
+import { selectToken } from '@/features/auth/AuthSlice';
+
+const GET_USERS = gql`
+  query AllUser {
+    allUser {
+      id
+      fullName
+      username
+      email
+      status
+    }
+  }
+`;
 
 const Onboarding = () => {
-  const data = employeeData;
+  // const data = employeeData;
+  const [data, setData] = useState<Employee[]>([]);
+  const token = useAppSelector(selectToken);
+  const [getUsers] = useLazyQuery(GET_USERS, {
+    onError: handleApolloError(
+      <ToastAction altText="Try Again" onClick={() => window.location.reload()}>
+        Error fetching Users. Try again.
+      </ToastAction>,
+    ),
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (token) {
+        const { data } = await getUsers({ variables: { token } });
+        setData(data.allUser);
+      }
+    };
+    fetchData();
+  }, [token, getUsers]);
 
   const loading = useMemo(
     () => (data.length === 0 ? 'pending' : 'done'),
@@ -32,8 +69,8 @@ const Onboarding = () => {
           <DataTable
             columns={columns}
             data={data}
-            filterid="applicationStatus"
-            filtervalue="Pending"
+            filterid="status"
+            filtervalue="pending"
           />
         </div>
       </div>
@@ -47,8 +84,8 @@ const Onboarding = () => {
           <DataTable
             columns={columns}
             data={data}
-            filterid="applicationStatus"
-            filtervalue="Approved"
+            filterid="status"
+            filtervalue="approved"
           />
         </div>
       </div>
@@ -62,8 +99,8 @@ const Onboarding = () => {
           <DataTable
             columns={columns}
             data={data}
-            filterid="applicationStatus"
-            filtervalue="Rejected"
+            filterid="status"
+            filtervalue="rejected"
           />
         </div>
       </div>
