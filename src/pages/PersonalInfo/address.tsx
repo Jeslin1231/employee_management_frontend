@@ -11,6 +11,8 @@ import { object, string } from 'yup';
 import { useMutation } from '@apollo/client';
 import { UPDATE_ADDRESS_SECTION } from './gql';
 import { handleApolloError } from '@/utils/error';
+import { useAppSelector } from '@/app/hooks';
+import { selectRole } from '@/features/auth/AuthSlice';
 
 interface AddressSectionArgs {
   initialValues: {
@@ -45,6 +47,8 @@ const AddressSection = (props: AddressSectionArgs) => {
   const [editable, setEditable] = useState(false);
 
   const [stateOpen, setStateOpen] = useState(false);
+  const role = useAppSelector(selectRole);
+  const clickable = role !== 'hr';
 
   const [update, { loading }] = useMutation(UPDATE_ADDRESS_SECTION, {
     onCompleted: data => {
@@ -69,6 +73,7 @@ const AddressSection = (props: AddressSectionArgs) => {
   return (
     <Section
       editable={editable}
+      clickable={clickable}
       title="Address"
       loading={loading}
       onEdit={() => setEditable(true)}

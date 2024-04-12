@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 export type Employee = {
+  id: string;
   fullName: string;
   preferredName: string;
   visaTitle: string;
@@ -143,18 +144,14 @@ export const columns: ColumnDef<Employee>[] = [
               {visa[index]} : {doc.status}
               {/* {key} : {value} */}
               <div className="flex gap-2">
-                <a
-                  href={`${doc.url}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={doc.url} target="_blank" rel="noopener noreferrer">
                   <Button variant="outline">
                     <DropdownMenuItem>Preview</DropdownMenuItem>
                   </Button>
                 </a>
                 <a
-                  href={`${doc.url}`}
-                  download
+                  href={doc.url}
+                  download={doc.url}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

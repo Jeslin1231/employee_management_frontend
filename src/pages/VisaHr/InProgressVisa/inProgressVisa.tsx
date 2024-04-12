@@ -1,7 +1,6 @@
 import { columns } from './structure';
 import type { Employee } from '../allVisa/structure';
 import { DataTable } from './Table';
-import { sampleData } from './sampleData';
 import { useMemo } from 'react';
 import { useLazyQuery, gql } from '@apollo/client';
 import { ToastAction } from '@/components/ui/toast';
@@ -13,6 +12,7 @@ import { useState, useEffect } from 'react';
 const GET_VISAS = gql`
   query AllVisa {
     allVisa {
+      id
       fullName
       preferredName
       visaTitle

@@ -12,8 +12,8 @@ export const ONBOARDING = gql`
 `;
 
 export const FETCH = gql`
-  query Employee {
-    employee {
+  query Employee($employee: String!) {
+    employee(employee: $employee) {
       _id
       firstName
       lastName
@@ -30,6 +30,7 @@ export const FETCH = gql`
       zip
       cellPhone
       workPhone
+      feedback
       citizenship
       visaType
       visaStartDate
@@ -53,6 +54,25 @@ export const FETCH = gql`
         file
         type
       }
+    }
+  }
+`;
+
+export const FEEDBACK = gql`
+  mutation OnBoardingFeedback(
+    $employee: String!
+    $feedback: String!
+    $status: String!
+  ) {
+    onBoardingFeedback(
+      employee: $employee
+      feedback: $feedback
+      status: $status
+    ) {
+      api
+      type
+      status
+      message
     }
   }
 `;

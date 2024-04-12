@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const FETCH = gql`
-  query Employee {
-    employee {
+  query Employee($employee: String!) {
+    employee(employee: $employee) {
       _id
       firstName
       lastName

@@ -35,7 +35,7 @@ const Navigation = () => {
       description: <Link to="/onboarding">Onboarding</Link>,
     },
     {
-      description: <Link to="/personal-info">Personal Information</Link>,
+      description: <Link to="/personal_info">Personal Information</Link>,
     },
     {
       description: <Link to="/visa">Visa Status Management</Link>,

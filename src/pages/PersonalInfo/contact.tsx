@@ -9,6 +9,8 @@ import { useState } from 'react';
 import { object, string } from 'yup';
 import { UPDATE_CONTACT_SECTION } from './gql';
 import { handleApolloError } from '@/utils/error';
+import { useAppSelector } from '@/app/hooks';
+import { selectRole } from '@/features/auth/AuthSlice';
 
 interface ContactSectionProps {
   initialValues: {
@@ -27,6 +29,9 @@ const validationSchema = object({
 
 const ContactSection = (props: ContactSectionProps) => {
   const [editable, setEditable] = useState(false);
+  const role = useAppSelector(selectRole);
+
+  const clickable = role !== 'hr';
 
   const [update, { loading }] = useMutation(UPDATE_CONTACT_SECTION, {
     onCompleted: data => {
@@ -47,6 +52,7 @@ const ContactSection = (props: ContactSectionProps) => {
   return (
     <Section
       editable={editable}
+      clickable={clickable}
       title="Contact"
       loading={loading}
       onCancel={() => {
