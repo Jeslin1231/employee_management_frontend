@@ -134,10 +134,10 @@ const Onboarding: react.FC = () => {
   }
 
   return (
-    <div className="flex flex-grow">
+    <div className="flex flex-col flex-grow">
       {onboardingStatus === 'rejected' && (
         <p className="text-red-500 text-2xl font-semibold m-auto">
-          feedback.current
+          {feedback.current}
         </p>
       )}
       <form className="flex-grow" onSubmit={handleSubmit}>
