@@ -12,6 +12,7 @@ import { useState, useEffect } from 'react';
 const GET_VISAS = gql`
   query AllVisa {
     allVisa {
+      id
       fullName
       preferredName
       visaTitle

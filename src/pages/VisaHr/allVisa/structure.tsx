@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 export type Employee = {
+  id: string;
   fullName: string;
   preferredName: string;
   visaTitle: string;

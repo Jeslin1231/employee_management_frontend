@@ -13,9 +13,28 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Textarea } from '@/components/ui/textarea';
 
-import Tooltip from '@/components/Tooltip/index';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useMutation, gql } from '@apollo/client';
+import { ToastAction } from '@/components/ui/toast';
+import { handleApolloError } from '@/utils/error';
+import { useAppSelector } from '@/app/hooks';
+import { selectToken } from '@/features/auth/AuthSlice';
+
+const GIVE_FEEDBACK = gql`
+  mutation VisaFeedback(
+    $id: String!
+    $doc: String!
+    $feedback: String!
+    $status: String!
+  ) {
+    visaFeedback(id: $id, doc: $doc, feedback: $feedback, status: $status) {
+      api
+      type
+      status
+      message
+    }
+  }
+`;
 
 export const columns: ColumnDef<Employee>[] = [
   {
@@ -94,33 +113,75 @@ export const columns: ColumnDef<Employee>[] = [
 
       // findout the document that needs to be approved
       let doc = { url: '', feedback: '', status: '' };
+      let docName = '';
       if (next === 'OPT Receipt: wait for HR approval') {
         doc = row.original.optReceipt;
+        docName = 'optReceipt';
       } else if (next === 'OPT EAD: wait for HR approval') {
         doc = row.original.optEad;
+        docName = 'optEad';
       } else if (next === 'I-983: wait for HR approval') {
         doc = row.original.i983;
+        docName = 'i983';
       } else if (next === 'I-20: wait for HR approval') {
         doc = row.original.i20;
+        docName = 'i20';
       }
+
+      // Define the useMutation hook to execute the mutation
+      const [giveFeedback] =
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        useMutation(GIVE_FEEDBACK, {
+          onCompleted: () => {
+            alert('Document Reviewed Successfully');
+          },
+          onError: handleApolloError(
+            <ToastAction
+              altText="Try Again"
+              onClick={() => window.location.reload()}
+            >
+              Error giving feedback. Try again.
+            </ToastAction>,
+          ),
+        });
 
       const handleNotification = () => {
         alert('notification');
       };
 
-      const handleApprove = () => {
-        alert('approve');
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const token = useAppSelector(selectToken);
+
+      const handleApprove = async () => {
+        await giveFeedback({
+          variables: {
+            token,
+            id: row.original.id,
+            doc: docName,
+            feedback: '',
+            status: 'approved',
+          },
+        });
+        window.location.reload();
       };
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [feedback, setFeedback] = useState('');
+      const [feedback, setFeedback] = useState<string>('');
 
       const handleFeedback = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setFeedback(e.target.value);
       };
 
-      const handleReject = () => {
-        console.log(feedback);
-        alert('reject');
+      const handleReject = async () => {
+        await giveFeedback({
+          variables: {
+            token,
+            id: row.original.id,
+            doc: docName,
+            feedback: `${feedback}`,
+            status: 'approved',
+          },
+        });
+        window.location.reload();
       };
 
       if (next?.includes('Submit')) {

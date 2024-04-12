@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { useLazyQuery, useMutation, gql } from '@apollo/client';
-import { ToastAction, Toast } from '@/components/ui/toast';
+import { ToastAction } from '@/components/ui/toast';
 import { handleApolloError } from '@/utils/error';
 import { useAppSelector } from '@/app/hooks';
 import { selectToken } from '@/features/auth/AuthSlice';
