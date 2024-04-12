@@ -66,6 +66,18 @@ const App: React.FC = () => {
                 element={<ProtectedHRRoute element={<ProfilesHr />} />}
                 // element={<ProfilesHr />}
               />
+
+              <Route
+                path="/profile_review/:id"
+                element={<ProtectedHRRoute element={<PersonalInfo />} />}
+                // element={<ProfilesHr />}
+              />
+
+              <Route
+                path="/onboarding_review/:id"
+                element={<ProtectedHRRoute element={<Onboarding />} />}
+                // element={<ProfilesHr />}
+              />
             </Route>
 
             {/* Error Page */}
