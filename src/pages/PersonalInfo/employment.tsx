@@ -11,6 +11,8 @@ import { ToastAction } from '@/components/ui/toast';
 import { useMutation } from '@apollo/client';
 import { UPDATE_EMPLOYMENT_SECTION } from './gql';
 import { handleApolloError } from '@/utils/error';
+import { useAppSelector } from '@/app/hooks';
+import { selectRole } from '@/features/auth/AuthSlice';
 
 interface EmploymentSectionProps {
   initialValues: {
@@ -40,7 +42,8 @@ const validationSchema = object({
 
 const EmploymentSection = (props: EmploymentSectionProps) => {
   const [editable, setEditable] = useState(false);
-  const clickable = props.citizenship === 'no';
+  const role = useAppSelector(selectRole);
+  const clickable = props.citizenship === 'visa' && role !== 'hr';
   const [visaOpen, setVisaOpen] = useState(false);
 
   const [update, { loading }] = useMutation(UPDATE_EMPLOYMENT_SECTION, {

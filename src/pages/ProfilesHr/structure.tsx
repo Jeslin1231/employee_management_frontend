@@ -37,7 +37,7 @@ export const columns: ColumnDef<Profile>[] = [
       return (
         <div className="text-center">
           <Link
-            to={`/personal_info/${id}`}
+            to={`/profile_review/${id}`}
             target="_blank"
             rel="noopener noreferrer"
           >

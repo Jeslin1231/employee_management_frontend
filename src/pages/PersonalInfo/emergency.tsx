@@ -10,6 +10,8 @@ import { toast } from '@/components/ui/use-toast';
 import { useMutation } from '@apollo/client';
 import { UPDATE_EMERGENCY_SECTION } from './gql';
 import { handleApolloError } from '@/utils/error';
+import { useAppSelector } from '@/app/hooks';
+import { selectRole } from '@/features/auth/AuthSlice';
 
 interface EmergencyContact {
   id: string;
@@ -56,6 +58,9 @@ const valuesToVariables = (values: any) => {
 
 const EmergencySection = (props: EmergencySectionProps) => {
   const [editable, setEditable] = useState(false);
+  const role = useAppSelector(selectRole);
+
+  const clickable = role !== 'hr';
 
   const [update, { loading }] = useMutation(UPDATE_EMERGENCY_SECTION, {
     onCompleted: data => {
@@ -80,6 +85,7 @@ const EmergencySection = (props: EmergencySectionProps) => {
   return (
     <Section
       editable={editable}
+      clickable={clickable}
       title="Emergency Contact"
       loading={loading}
       onCancel={() => {

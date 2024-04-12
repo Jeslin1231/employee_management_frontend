@@ -14,6 +14,8 @@ import { date, object, string } from 'yup';
 import { useMutation } from '@apollo/client';
 import { UPDATE_NAME_SECTION } from './gql';
 import { handleApolloError } from '@/utils/error';
+import { useAppSelector } from '@/app/hooks';
+import { selectRole } from '@/features/auth/AuthSlice';
 
 interface NameSectionInitialValues {
   avatar: string;
@@ -62,6 +64,9 @@ const valuesToVariables = (values: NameSectionInitialValues) => {
 
 const NameSection = (props: NameSectionProps) => {
   const [editable, setEditable] = useState(false);
+  const role = useAppSelector(selectRole);
+
+  const clickable = role !== 'hr';
 
   const [genderOpen, setGenderOpen] = useState(false);
 
@@ -88,6 +93,7 @@ const NameSection = (props: NameSectionProps) => {
   return (
     <Section
       editable={editable}
+      clickable={clickable}
       title="Name"
       loading={loading}
       onEdit={() => setEditable(true)}

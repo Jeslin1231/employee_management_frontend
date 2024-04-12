@@ -5,25 +5,32 @@ import ContactSection from './contact';
 import EmergencySection from './emergency';
 import EmploymentSection from './employment';
 import { useAppSelector } from '@/app/hooks';
-import { selectToken } from '@/features/auth/AuthSlice';
+import { selectToken, selectRole } from '@/features/auth/AuthSlice';
 import { useLazyQuery } from '@apollo/client';
 import { FETCH } from './gql';
 import { handleApolloError } from '@/utils/error';
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 const PersonalInfo = () => {
   const token = useAppSelector(selectToken);
+  const role = useAppSelector(selectRole);
+  let { id } = useParams();
 
   const [get, { loading, data }] = useLazyQuery(FETCH, {
-    onCompleted: data => {
-      console.log(data);
-    },
+    onCompleted: data => {},
     onError: handleApolloError(),
   });
 
   useEffect(() => {
-    get({ variables: { token } });
-  }, [get, token]);
+    if (role === 'normal') {
+      const employee = ' ';
+      get({ variables: { token, employee } });
+    } else if (role === 'hr') {
+      const employee = id;
+      get({ variables: { token, employee } });
+    }
+  }, [get, token, role, id]);
 
   if (!data || loading) {
     return (
