@@ -11,7 +11,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useEffect, useState } from 'react';
-import { blob } from 'stream/consumers';
 
 export type Employee = {
   id: string;
@@ -123,6 +122,7 @@ export const columns: ColumnDef<Employee>[] = [
     id: 'preview',
     header: () => <div className="text-center my-0">Documents</div>,
     cell: ({ row }) => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       const visaData = [
         row.original.optReceipt,
         row.original.optEad,
@@ -136,16 +136,6 @@ export const columns: ColumnDef<Employee>[] = [
         row.original.i983.status,
         row.original.i20.status,
       ];
-
-      // const files = visaData.map(async (doc, index) => {
-      //   if (doc.status !== 'unsubmitted' && doc.status !== 'rejected') {
-      //     const response = await fetch(doc.url);
-      //     const blob = await response.blob();
-      //     const url = URL.createObjectURL(blob);
-      //     console.log(url)
-      //     return url;
-      //   }
-      // })
 
       async function createBlobUrlFromUrl(url: string): Promise<string> {
         try {
