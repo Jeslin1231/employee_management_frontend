@@ -8,8 +8,6 @@ const NotFound: React.FC = () => {
 
   const navigate = useNavigate();
 
-  console.log(navigate);
-
   const goBackHandler = () => {
     if (identity === 'hr') {
       navigate('/profiles_hr');

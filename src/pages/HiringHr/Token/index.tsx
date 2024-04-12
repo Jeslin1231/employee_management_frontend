@@ -1,7 +1,8 @@
-import { columns, History } from './structure';
+import type { History } from './structure';
+import { columns } from './structure';
 import { DataTable } from './Table';
 import { tokenData } from './sampleData';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -21,8 +22,21 @@ const CREATE_TOKEN = gql`
   }
 `;
 
+const GET_TOKEN_HISTORY = gql`
+  query GetAllTokenHistory {
+    getAllTokenHistory {
+      email
+      URL
+      status
+      username
+      fullName
+    }
+  }
+`;
+
 const Token = () => {
   const data = tokenData;
+  const [tokenHistory, setTokenHistory] = useState<History[]>([]);
   const [email, setEmail] = useState('');
   const [validEmail, setValidEmail] = useState(true);
   const token = useAppSelector(selectToken);
@@ -55,6 +69,25 @@ const Token = () => {
       setValidEmail(false);
     }
   };
+
+  const [getTokenHistory] = useLazyQuery(GET_TOKEN_HISTORY, {
+    onError: handleApolloError(
+      <ToastAction altText="Try Again" onClick={() => window.location.reload()}>
+        Error fetching token history. Try again.
+      </ToastAction>,
+    ),
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (token) {
+        const { data } = await getTokenHistory({ variables: { token } });
+        setTokenHistory(data.getAllTokenHistory);
+        console.log(data);
+      }
+    };
+    fetchData();
+  }, [token, getTokenHistory]);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const onloading = useMemo(
@@ -112,7 +145,7 @@ const Token = () => {
           </header>
         </div>
 
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={columns} data={tokenHistory} />
       </div>
     </div>
   );

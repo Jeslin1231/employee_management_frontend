@@ -37,12 +37,14 @@ const REGISTER = gql`
     $username: String!
     $email: String!
     $password: String!
+    $role: String!
   ) {
     register(
       token: $token
       username: $username
       email: $email
       password: $password
+      role: $role
     ) {
       api
       type
