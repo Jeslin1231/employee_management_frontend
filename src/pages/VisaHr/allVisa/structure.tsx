@@ -10,6 +10,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useEffect, useState } from 'react';
+import { blob } from 'stream/consumers';
 
 export type Employee = {
   id: string;
@@ -135,6 +137,50 @@ export const columns: ColumnDef<Employee>[] = [
         row.original.i20.status,
       ];
 
+      // const files = visaData.map(async (doc, index) => {
+      //   if (doc.status !== 'unsubmitted' && doc.status !== 'rejected') {
+      //     const response = await fetch(doc.url);
+      //     const blob = await response.blob();
+      //     const url = URL.createObjectURL(blob);
+      //     console.log(url)
+      //     return url;
+      //   }
+      // })
+
+      async function createBlobUrlFromUrl(url: string): Promise<string> {
+        try {
+          // Fetch the resource at the URL
+          const response = await fetch(url);
+
+          // Get the response data as a Blob
+          const blob = await response.blob();
+
+          // Create a Blob URL from the Blob
+          const blobUrl = URL.createObjectURL(blob);
+
+          return blobUrl;
+        } catch (error) {
+          console.error('Error fetching or creating Blob URL:', error);
+          throw error;
+        }
+      }
+
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [blobUrls, setBlobUrls] = useState<string[]>([]);
+
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      useEffect(() => {
+        // Loop through visaData and fetch Blob URLs
+        visaData.forEach((doc, index) => {
+          if (doc.status !== 'unsubmitted' && doc.status !== 'rejected') {
+            createBlobUrlFromUrl(doc.url).then(blobUrl => {
+              // Update blobUrls state with the new Blob URL
+              setBlobUrls(prevBlobUrls => [...prevBlobUrls, blobUrl]);
+            });
+          }
+        });
+      }, [visaData]); // Empty dependency array ensures the effect runs only once
+
       // eslint-disable-next-line array-callback-return
       const hasDocuments = visaData.map((doc, index) => {
         if (doc.status !== 'unsubmitted' && doc.status !== 'rejected') {
@@ -142,7 +188,6 @@ export const columns: ColumnDef<Employee>[] = [
             <div key={index} className="flex flex-col m-2 gap-2">
               <DropdownMenuSeparator />
               {visa[index]} : {doc.status}
-              {/* {key} : {value} */}
               <div className="flex gap-2">
                 <a href={doc.url} target="_blank" rel="noopener noreferrer">
                   <Button variant="outline">
@@ -150,8 +195,8 @@ export const columns: ColumnDef<Employee>[] = [
                   </Button>
                 </a>
                 <a
-                  href={doc.url}
-                  download={doc.url}
+                  href={blobUrls[index]}
+                  download={blobUrls[index]}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
