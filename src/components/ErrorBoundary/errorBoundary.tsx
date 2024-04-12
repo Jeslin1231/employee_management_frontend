@@ -10,7 +10,6 @@ const ErrorBoundary: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     const handleError = () => {
-      console.error('ErrorBoundary caught an error');
       setHasError(true);
       navigate('/error');
     };

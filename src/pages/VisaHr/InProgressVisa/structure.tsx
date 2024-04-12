@@ -1,4 +1,6 @@
 import type { ColumnDef } from '@tanstack/react-table';
+import type { Employee } from '../allVisa/structure';
+import { handleNextStep } from '../functions';
 import { MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -15,19 +17,6 @@ import Tooltip from '@/components/Tooltip/index';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
-export type Employee = {
-  id: string;
-  fullName: string;
-  workAuth: {
-    title: string;
-    startDate: string;
-    endDate: string;
-    remainingDays: number;
-  };
-  nextStep: string;
-  // action: string;
-};
-
 export const columns: ColumnDef<Employee>[] = [
   {
     accessorKey: 'fullName',
@@ -37,46 +26,63 @@ export const columns: ColumnDef<Employee>[] = [
     },
   },
 
-  // {
-  //     accessorKey: 'userName',
-  //     header: () => <div className="text-center my-6">User Name</div>,
-  //     cell: ({ row }) => {
-  //         return <div className="text-center">{row.original.userName}</div>;
-  //     },
-  // },
-
   {
     accessorKey: 'workAuth',
     header: () => <div className="text-center my-0">Work Authorization</div>,
     cell: ({ row }) => {
+      function formatDate(date: Date) {
+        // Get month, day, and year
+        const month = date.getMonth() + 1; // Months are zero-based, so we add 1
+        const day = date.getDate();
+        const year = date.getFullYear();
+
+        // Format the date as "MM-DD-YYYY"
+        const formattedDate = `${month}-${day}-${year}`;
+
+        return formattedDate;
+      }
+
+      const startDate = new Date(row.original.visaStartDate);
+      const endDate = new Date(row.original.visaEndDate);
+      const formattedStartDate = formatDate(startDate);
+      const formattedEndDate = formatDate(endDate);
+
+      const now = new Date();
+
+      const differenceMs = endDate.getTime() - now.getTime();
+      const remainingDays = Math.ceil(differenceMs / (1000 * 60 * 60 * 24));
+
       return (
         <div className="flex justify-center">
           <div className="flex flex-col justify-center px-1 w-30 border-l-2">
             <div>
-              <span>Title: {row.original.workAuth.title}</span>
+              <span>Title: {row.original.visaTitle}</span>
             </div>
             <div>
-              <span>Remaining Days: {row.original.workAuth.remainingDays}</span>
+              <span>Remaining Days: {remainingDays}</span>
             </div>
           </div>
 
           <div className="flex flex-col justify-center w-40 px-1 border-l-2">
             <div>
-              <span>Start Date: {row.original.workAuth.startDate}</span>
+              <span>Start Date: {formattedStartDate} </span>
             </div>
             <div>
-              <span>End Date: {row.original.workAuth.endDate}</span>
+              <span>End Date: {formattedEndDate} </span>
             </div>
           </div>
         </div>
       );
     },
   },
+
   {
-    accessorKey: 'nextStep',
-    header: () => <div className="text-center my-0">Next Step</div>,
+    accessorKey: 'next',
+    header: () => <div className="text-center my-6">Next Step</div>,
     cell: ({ row }) => {
-      return <div className="text-center">{row.original.nextStep}</div>;
+      const next = handleNextStep(row.original);
+
+      return <div className="text-center">{next}</div>;
     },
   },
 
@@ -84,12 +90,22 @@ export const columns: ColumnDef<Employee>[] = [
     id: 'actions',
     header: () => <div className="text-center my-0">Action List</div>,
     cell: ({ row }) => {
+      const next = handleNextStep(row.original);
+
+      // findout the document that needs to be approved
+      let doc = { url: '', feedback: '', status: '' };
+      if (next === 'OPT Receipt: wait for HR approval') {
+        doc = row.original.optReceipt;
+      } else if (next === 'OPT EAD: wait for HR approval') {
+        doc = row.original.optEad;
+      } else if (next === 'I-983: wait for HR approval') {
+        doc = row.original.i983;
+      } else if (next === 'I-20: wait for HR approval') {
+        doc = row.original.i20;
+      }
+
       const handleNotification = () => {
         alert('notification');
-      };
-
-      const handlePreview = () => {
-        alert('preview');
       };
 
       const handleApprove = () => {
@@ -107,7 +123,7 @@ export const columns: ColumnDef<Employee>[] = [
         alert('reject');
       };
 
-      if (row.original.nextStep.includes('Submit')) {
+      if (next?.includes('Submit')) {
         return (
           <div className="text-center">
             <DropdownMenu>
@@ -130,7 +146,7 @@ export const columns: ColumnDef<Employee>[] = [
             </DropdownMenu>
           </div>
         );
-      } else if (row.original.nextStep.includes('approval')) {
+      } else if (next?.includes('approval')) {
         return (
           <div className="text-center">
             <DropdownMenu>
@@ -142,11 +158,14 @@ export const columns: ColumnDef<Employee>[] = [
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem
-                  className="cursor-pointer"
-                  onClick={handlePreview}
-                >
-                  Preview Documents
+                <DropdownMenuItem className="cursor-pointer">
+                  <a
+                    href={`${doc.url}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Preview Documents
+                  </a>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <div className="flex flex-col">
@@ -175,32 +194,9 @@ export const columns: ColumnDef<Employee>[] = [
             </DropdownMenu>
           </div>
         );
+      } else {
+        return <div className="text-center">No Action Available</div>;
       }
-
-      return (
-        <div className="text-center">
-          No Action Available
-          {/* <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                // onClick={() => navigator.clipboard.writeText(payment.id)}
-              >
-                Copy payment ID
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>View customer</DropdownMenuItem>
-              <DropdownMenuItem>View payment details</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu> */}
-        </div>
-      );
     },
   },
 ];

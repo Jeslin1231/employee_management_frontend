@@ -1,12 +1,71 @@
-import { columns, Employee } from './structure';
+import { columns } from './structure';
+import type { Employee } from '../allVisa/structure';
 import { DataTable } from './Table';
 import { sampleData } from './sampleData';
 import { useMemo } from 'react';
+import { useLazyQuery, gql } from '@apollo/client';
+import { ToastAction } from '@/components/ui/toast';
+import { handleApolloError } from '@/utils/error';
+import { useAppSelector } from '@/app/hooks';
+import { selectToken } from '@/features/auth/AuthSlice';
+import { useState, useEffect } from 'react';
 
-const inProgressVisa = () => {
-  const data = sampleData;
+const GET_VISAS = gql`
+  query AllVisa {
+    allVisa {
+      fullName
+      preferredName
+      visaTitle
+      visaStartDate
+      visaEndDate
+      optReceipt {
+        feedback
+        url
+        status
+      }
+      optEad {
+        feedback
+        url
+        status
+      }
+      i983 {
+        feedback
+        url
+        status
+      }
+      i20 {
+        feedback
+        url
+        status
+      }
+    }
+  }
+`;
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+const InProgressVisa = () => {
+  const token = useAppSelector(selectToken);
+  const [getVisas] = useLazyQuery(GET_VISAS, {
+    onError: handleApolloError(
+      <ToastAction altText="Try Again" onClick={() => window.location.reload()}>
+        Error fetching visas. Try again.
+      </ToastAction>,
+    ),
+  });
+
+  const [data, setData] = useState<Employee[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (token) {
+        const { data } = await getVisas({ variables: { token } });
+        const filteredData = data.allVisa.filter((visa: Employee) => {
+          return visa.i20.status !== 'approved';
+        });
+        setData(filteredData);
+      }
+    };
+    fetchData();
+  }, [token, getVisas]);
+
   const loading = useMemo(
     () => (data.length === 0 ? 'pending' : 'done'),
     [data],
@@ -27,4 +86,4 @@ const inProgressVisa = () => {
   );
 };
 
-export default inProgressVisa;
+export default InProgressVisa;
